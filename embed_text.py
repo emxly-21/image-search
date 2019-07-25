@@ -92,6 +92,7 @@ def to_idf(vocab, counters):
     logged = np.log10(np.array(li))
     for word in range(len(vocab)):
         dict[vocab[word]] = logged[word]
+    return dict
 
 def se_text(caption, glove50, idfs):
     '''

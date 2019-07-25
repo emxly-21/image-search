@@ -15,8 +15,6 @@ def main():
     counters = [embed_text.to_counter(doc) for doc in documents]
     vocab = embed_text.to_vocab(counters)
     idfs = embed_text.to_idf(vocab, counters)
-    print(embed_text.se_text("Hello Jessie!", glove, idfs))
-    print(embed_text.se_text.shape)
 
 if __name__ == "__main__":
     main()

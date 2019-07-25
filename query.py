@@ -1,6 +1,6 @@
-from collections import Counter
 from embed_text import se_text
 import numpy as np
+
 
 def query(database, query, k):
     """
@@ -19,7 +19,30 @@ def query(database, query, k):
 
     db = database
     se_query = se_text(query)
-    sim = Counter()
+    similarities = []
     for se_img in db:
-        sim[se_img] = sim(se_img, se_query)
-    return np.array(sim.most_common(k))
+        similarities = similarities.append(sim(se_img, se_query))
+    similarities = sorted(similarities)
+    return np.array(similarities[-k::])
+
+
+def image_query(database, query, k, semantic):
+    """
+
+    :param database: np.array of images where each row corresponds to a
+                        different image's semantic features
+    :param query: np.array(1,512) image of features
+    :param k: number of images to return
+    :param semantic: boolean of if the images should be similar by image features or semantics
+    :return: np.array of top k images that correspond to the image query
+    """
+
+    if semantic:
+        database = se_image(database)
+        query = se_image(query)
+    similarities = []
+    for img in database:
+        similarities = similarities.append(sim(img, query))
+    similarities = sorted(similarities)
+    return np.array(similarities[-k::])
+
