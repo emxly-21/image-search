@@ -1,5 +1,8 @@
 from mynn.layers.dense import dense
 from mygrad.nnet import margin_ranking_loss
+from mynn.optimizers.sgd import SGD
+import numpy as np
+import unpickle
 
 class Model:
     def __init__(self):
@@ -16,7 +19,7 @@ import mygrad as mg
 def accuracy(simgood,simbad):
     return simgood-simbad
 
-from mynn.optimizers.sgd import SGD
+
 id1=np.random.randint(0, 82784)
 id2=np.random.randint(0, 82784)
 while id1 == id2:
