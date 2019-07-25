@@ -1,6 +1,5 @@
-from collections import Counter
-
-def query(database, query, k):
+import numpy as np
+def word_query(database, query, k):
     """
     create function to query database and return top k images
 
@@ -9,6 +8,7 @@ def query(database, query, k):
     database: np.array of images where each row corresponds to a different image's
                     semantic features
     query: string that describes the image the user is looking for
+    k: number of top images to return
 
     Returns
     --------
@@ -17,7 +17,29 @@ def query(database, query, k):
 
     db = database
     se_query = se_text(query)
-    sim = Counter()
+    sim = []
     for se_img in db:
-        sim[se_img] = sim(se_img, se_query)
-    return np.array(sim.most_common(k))
+        sim = sim.append(sim(se_img, se_query))
+    sim = sorted(sim)
+    return np.array(sim[-k::])
+
+
+def image_query(database, query, k, semantic):
+    """
+
+    :param database: np.array of images where each row corresponds to a
+                        different image's semantic features
+    :param query: np.array(1,512) image of features
+    :param k: number of images to return
+    :param semantic: boolean of if the images should be similar by image features or semantics
+    :return: np.array of top k images that correspond to the image query
+    """
+
+    if semantic:
+        database = se_image(database)
+        query = se_image(query)
+    sim = []
+    for img in database:
+        sim = sim.append(sim(img, query))
+    sim = sorted(sim)
+    return np.array(sim[-k::])
