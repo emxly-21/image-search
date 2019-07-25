@@ -6,7 +6,7 @@ def unpickle():
 
     Unpickles the resnet18_features.pkl file and saves it into a dictionary called pfile
 
-    Returns pfile, a dictionary containing the content of the resnet18_features.pkl
+    Returns pfile, a dictionary where pfile[key = image_id] returns the (1,512) image features
     -------
 
     """
