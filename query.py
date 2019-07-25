@@ -1,4 +1,6 @@
 from collections import Counter
+from embed_text import se_text
+import numpy as np
 
 def query(database, query, k):
     """
