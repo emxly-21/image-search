@@ -1,5 +1,8 @@
+from embed_text import se_text
 import numpy as np
-def word_query(database, query, k):
+
+
+def query(database, query, k):
     """
     create function to query database and return top k images
 
@@ -8,7 +11,6 @@ def word_query(database, query, k):
     database: np.array of images where each row corresponds to a different image's
                     semantic features
     query: string that describes the image the user is looking for
-    k: number of top images to return
 
     Returns
     --------
@@ -17,11 +19,11 @@ def word_query(database, query, k):
 
     db = database
     se_query = se_text(query)
-    sim = []
+    similarities = []
     for se_img in db:
-        sim = sim.append(sim(se_img, se_query))
-    sim = sorted(sim)
-    return np.array(sim[-k::])
+        similarities = similarities.append(sim(se_img, se_query))
+    similarities = sorted(similarities)
+    return np.array(similarities[-k::])
 
 
 def image_query(database, query, k, semantic):
@@ -38,8 +40,9 @@ def image_query(database, query, k, semantic):
     if semantic:
         database = se_image(database)
         query = se_image(query)
-    sim = []
+    similarities = []
     for img in database:
-        sim = sim.append(sim(img, query))
-    sim = sorted(sim)
-    return np.array(sim[-k::])
+        similarities = similarities.append(sim(img, query))
+    similarities = sorted(similarities)
+    return np.array(similarities[-k::])
+
