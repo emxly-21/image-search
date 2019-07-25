@@ -2,11 +2,11 @@ def display_imgs(image_ids, ids_to_url):
     """
     Plots the images of the image_ids
     :param image_ids: an Iterable of ids
-    :param ids_to_url: Dict[ids: tuple(captions, coco_url)
+    :param ids_to_url: Dict[ids: coco_url)
     :return: None
     """
     for image in image_ids:
-        url = ids_to_url[image][1]
+        url = ids_to_url[image]
         data = urlopen(url)
 
         # converting the downloaded bytes into a numpy-array
