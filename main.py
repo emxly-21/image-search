@@ -1,6 +1,7 @@
 from gensim.models.keyedvectors import KeyedVectors
 import embed_text
 import json
+import unpickle
 import numpy as np
 
 def main():
@@ -9,6 +10,7 @@ def main():
     path_to_json = "captions_train2014.json"
     with open(path_to_json, "rb") as f:
         json_data = json.load(f)
+    resnet = unpickle.unpickle()
     documents = []
     img_to_caption = {}
     img_to_coco = {}
