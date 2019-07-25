@@ -1,5 +1,8 @@
+from collections import Counter
+from embed_text import se_text
 import numpy as np
-def word_query(database, query, k):
+
+def query(database, query, k):
     """
     create function to query database and return top k images
 
@@ -8,7 +11,6 @@ def word_query(database, query, k):
     database: np.array of images where each row corresponds to a different image's
                     semantic features
     query: string that describes the image the user is looking for
-    k: number of top images to return
 
     Returns
     --------
@@ -43,3 +45,4 @@ def image_query(database, query, k, semantic):
         similarities = similarities.append(sim(img, query))
     similarities = sorted(similarities)
     return np.array(similarities[-k::])
+
