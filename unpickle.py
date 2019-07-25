@@ -13,3 +13,4 @@ def unpickle():
     with open('resnet18_features.pkl', mode='rb') as file:
         pfile = pickle.load(file)
     return pfile
+

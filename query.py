@@ -1,4 +1,6 @@
 from collections import Counter
+import numpy as np
+
 
 def query(database, query, k):
     """

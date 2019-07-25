@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def se_image(images, dense):
 
     """
