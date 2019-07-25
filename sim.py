@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def sim(v1, v2):
     '''
 
@@ -16,6 +15,6 @@ def sim(v1, v2):
     mygrad.Tensor, shape=(N, 1)
         The model outputs.
     '''
-    v1_norm = np.linalg.norm(v1)
-    v2_norm = np.linalg.norm(v2)
+    v1_norm = v1 / np.linalg.norm(v1)
+    v2_norm = v2 / np.linalg.norm(v2)
     return v1_norm @ v2_norm
