@@ -29,8 +29,11 @@ def main():
     #with open("img_to_coco1.pkl", mode="rb") as coco:
         #img_to_coco=pickle.load(coco)
     model = Model()
-    optim = SGD(model.parameters, learning_rate=0.1)
 
+    model.dense1.weight=mg.Tensor(np.load('weights.npy'))
+    model.dense1.bias=mg.Tensor(np.load('bias.npy'))
+    optim = SGD(model.parameters, learning_rate=0.1)
+    accarr=[]
     for i in range(100):
         id1 = np.random.choice(list(resnet.keys()))
         #print(id1)
@@ -58,8 +61,10 @@ def main():
         optim.step()
     # null your gradients
         loss.null_gradients()
-    print(acc)
-
+        accarr.append(1 if acc>0 else 0)
+    np.save('weight',model.dense1.parameters[0].data)
+    np.save('bias',model.dense1.parameters[1].data)
+    print(sum(accarr)/100)
 
 class Model:
     def __init__(self):
