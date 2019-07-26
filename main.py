@@ -36,5 +36,6 @@ def main():
     vocab = embed_text.to_vocab(counters)
     idfs = embed_text.to_idf(vocab, counters)
 
+
 if __name__ == "__main__":
     main()

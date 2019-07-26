@@ -17,4 +17,4 @@ def sim(v1, v2):
     '''
     v1_norm = v1 / np.linalg.norm(v1)
     v2_norm = v2 / np.linalg.norm(v2)
-    return v1_norm @ v2_norm
+    return np.dot(v1, v2)

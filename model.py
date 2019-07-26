@@ -1,6 +1,7 @@
 from mynn.layers.dense import dense
 from mygrad.nnet import margin_ranking_loss
 from mynn.optimizers.sgd import SGD
+from embed_text import se_text
 import numpy as np
 import unpickle
 
