@@ -9,13 +9,8 @@ import numpy as np
 from mynn.optimizers.sgd import SGD
 from mynn.layers.dense import dense
 from mygrad.nnet import margin_ranking_loss
-
-
 import cos_sim
-
-
-
-
+import pickle
 
 def main():
     path = r"glove.6B.50d.txt.w2v"
@@ -27,39 +22,23 @@ def main():
         json_data = json.load(f)
     resnet = unpickle.unpickle()
 
-    documents = []
-    img_to_caption = {}
-    img_to_coco = {}
-
-    # creates a Dict[img_ids: captions]
-    for caption in json_data['annotations']:
-        img_id = caption['image_id']
-        if img_id in img_to_caption:
-            img_to_caption[img_id].append(caption['caption'])
-        else:
-            img_to_caption[img_id] = []
-
-    # creates a Dict[img_ids: coco_url]
-    for image in json_data['images']:
-        img_to_coco[image['id']] = image['coco_url']
-    for caption in range(414113):
-        documents.append(json_data['annotations'][caption]['caption'])
-
-    counters = [embed_text.to_counter(doc) for doc in documents]
-    vocab = embed_text.to_vocab(counters)
-    idfs = embed_text.to_idf(vocab, counters)
-
+    with open("idfs1.pkl", mode="rb") as idf:
+        idfs=pickle.load(idf)
+    with open("img_to_caption1.pkl", mode="rb") as cap:
+        img_to_caption=pickle.load(cap)
+    #with open("img_to_coco1.pkl", mode="rb") as coco:
+        #img_to_coco=pickle.load(coco)
     model = Model()
     optim = SGD(model.parameters, learning_rate=0.1)
 
     for i in range(100):
         id1 = np.random.choice(list(resnet.keys()))
-        print(id1)
+        #print(id1)
         id2 = np.random.choice(list(resnet.keys()))
         while id1 == id2:
             id2 = np.random.choice(list(resnet.keys()))
 
-        print(type(resnet[id1]),type(img_to_caption[id1][0]),type(resnet[id2]))
+        #print(type(resnet[id1]),type(img_to_caption[id1][0]),type(resnet[id2]))
         good_image = mg.Tensor(resnet[id1])
         text = (img_to_caption[id1][0])
         bad_image = mg.Tensor(resnet[id2])
@@ -67,11 +46,6 @@ def main():
         sim_to_good = cos_sim.cos_sim(model(good_image), embed_text.se_text(text, glove, idfs))
         sim_to_bad = cos_sim.cos_sim(model(bad_image), embed_text.se_text(text, glove, idfs))
 
-        good_image = resnet[id1]
-        text = img_to_caption[id1][0]
-        bad_image = resnet[id2]
-        sim_to_good = cos_sim(embed_text.se_text(text, glove, idfs).reshape(50), mg.reshape(model(good_image), 50))
-        sim_to_bad = cos_sim(embed_text.se_text(text, glove, idfs).reshape(50), mg.reshape(model(bad_image), 50))
 
 
     # compute the loss associated with our predictions(use softmax_cross_entropy)
