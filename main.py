@@ -1,6 +1,8 @@
 from gensim.models.keyedvectors import KeyedVectors
 import unpickle
 import pickle
+import sim
+import numpy as np
 import embed_text
 import display_images
 import make_database
@@ -20,10 +22,25 @@ def main():
     with open("img_to_coco1.pkl", mode="rb") as coco:
         img_to_coco = pickle.load(coco)
 
+    # uncomment this only if you want to repickle the image embeddings
+    # img_embeddings = {}
+    # weights = np.load("weight.npy")
+    # bias = np.load("bias.npy")
+    # for image in resnet:
+    #     embedding = image*weights + bias
+    #     img_embeddings[image] = embedding
+    # with open('img_embeddings.pkl', mode='wb') as file:
+    #     pickle.dump(img_embeddings, file)
+
+    with open("img_embeddings.pkl", mode="rb") as file:
+        img_embeddings = pickle.load(file)
+
+    cos_sims = {}
+    for x in img_embeddings:
+        cos_sims[x] = sim.sim
+
     query = input("Welcome to Image Search! What would you like to search?\t")
-    text_semantic = embed_text.se_text(query, glove, idfs)
-    # pass it through the model
-    display_images.display_imgs(image_ids, img_to_coco)
+    #display_images.display_imgs(image_ids, img_to_coco)
 
 if __name__ == "__main__":
     main()
