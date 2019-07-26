@@ -15,12 +15,8 @@ def cos_sim(v1, v2):
     mygrad.Tensor, shape=(N, 1)
         The model outputs.
     '''
-    v1_sumsq = 0
-    for x in v1.data:
-        v1_sumsq += x**2
-    v2_sumsq = 0
-    for x in v2.data:
-        v2_sumsq += x**2
+    v1_sumsq = mg.sum(v1**2)
+    v2_sumsq = mg.sum(v2**2)
     v1_mag = mg.sqrt(v1_sumsq)
     v2_mag = mg.sqrt(v2_sumsq)
     v1_norm = v1 / v1_mag
