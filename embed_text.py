@@ -124,6 +124,7 @@ def se_text(caption, glove50, idfs):
     caption = strip_punc(caption).lower()
     words = caption.split()
     for word in words:
-        encoding += idfs[word] * glove50[word]
+        if word in glove50:
+            encoding += idfs[word] * glove50[word]
     encoding /= np.linalg.norm(encoding)
     return encoding
