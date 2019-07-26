@@ -88,7 +88,10 @@ def to_idf(vocab, counters):
         for counter in counters:
             if word in counter:
                 count += 1
-        li.append(len(counters) / count)
+        if count == 0:
+            li.append(len(counters) / 0.01)
+        else:
+            li.append(len(counters) / count)
     logged = np.log10(np.array(li))
     for word in range(len(vocab)):
         dict[vocab[word]] = logged[word]
