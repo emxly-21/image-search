@@ -126,7 +126,5 @@ def se_text(caption, glove50, idfs):
     for word in words:
         if word in glove50:
             encoding += idfs[word] * glove50[word]
-        else:
-            print(word, "is not in glove!")
     encoding /= np.linalg.norm(encoding)
     return encoding

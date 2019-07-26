@@ -21,4 +21,4 @@ def cos_sim(v1, v2):
     v2_mag = mg.sqrt(v2_sumsq)
     v1_norm = v1 / v1_mag
     v2_norm = v2 / v2_mag
-    return mg.matmul(v1_norm, v2_norm)
+    return mg.sum((v1_norm * v2_norm), axis=1)
