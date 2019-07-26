@@ -1,8 +1,10 @@
-import re, string
+import re
+import string
 import numpy as np
 from collections import Counter
 
 punc_regex = re.compile('[{}]'.format(re.escape(string.punctuation)))
+
 
 def strip_punc(corpus):
     """ Removes all punctuation from a string.
@@ -82,7 +84,7 @@ def to_idf(vocab, counters):
         Dictionary mapping each word in vocab to its IDF
     """
     li = []
-    dict = {}
+    d = {}
     for word in vocab:
         count = 0
         for counter in counters:
@@ -94,11 +96,12 @@ def to_idf(vocab, counters):
             li.append(len(counters) / count)
     logged = np.log10(np.array(li))
     for word in range(len(vocab)):
-        dict[vocab[word]] = logged[word]
-    return dict
+        d[vocab[word]] = logged[word]
+    return d
+
 
 def se_text(caption, glove50, idfs):
-    '''
+    """
     Returns a 50-dimensional vector embedding the text from the caption into the semantic space.
 
     Parameters
@@ -116,7 +119,7 @@ def se_text(caption, glove50, idfs):
     -------
     numpy.ndarray
         The 50-dimensional encoding for the caption in the semantic space
-    '''
+    """
     encoding = np.zeros((50,))
     caption = strip_punc(caption).lower()
     words = caption.split()
