@@ -7,6 +7,7 @@ import numpy as np
 from mynn.optimizers.sgd import SGD
 from mynn.layers.dense import dense
 from mygrad.nnet import margin_ranking_loss
+from cos_sim import cos_sim
 
 
 def main():
@@ -56,8 +57,8 @@ def main():
         good_image = resnet[id1]
         text = img_to_caption[id1][0]
         bad_image = resnet[id2]
-        sim_to_good = sim.sim(embed_text.se_text(text, glove, idfs), model(good_image))
-        sim_to_bad = sim.sim(embed_text.se_text(text, glove, idfs), model(bad_image))
+        sim_to_good = cos_sim(embed_text.se_text(text, glove, idfs).reshape(50), mg.reshape(model(good_image), 50))
+        sim_to_bad = cos_sim(embed_text.se_text(text, glove, idfs).reshape(50), mg.reshape(model(bad_image), 50))
 
     # compute the loss associated with our predictions(use softmax_cross_entropy)
         loss = margin_ranking_loss(sim_to_good, sim_to_bad, 1, 0.1)
