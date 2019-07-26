@@ -56,8 +56,8 @@ def main():
         good_image = resnet[id1]
         text = img_to_caption[id1][0]
         bad_image = resnet[id2]
-        sim_to_good = sim.sim(embed_text.se_text(text, glove, idfs), model(good_image))
-        sim_to_bad = sim.sim(embed_text.se_text(text, glove, idfs), model(bad_image))
+        sim_to_good = sim.sim(embed_text.se_text(text, glove, idfs).reshape(1,50), model(good_image).data.reshape(1,50))
+        sim_to_bad = sim.sim(embed_text.se_text(text, glove, idfs).reshape(1,50), model(bad_image).data.reshape(1,50))
 
     # compute the loss associated with our predictions(use softmax_cross_entropy)
         loss = margin_ranking_loss(sim_to_good, sim_to_bad, 1, 0.1)
