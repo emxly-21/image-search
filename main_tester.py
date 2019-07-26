@@ -9,8 +9,13 @@ import numpy as np
 from mynn.optimizers.sgd import SGD
 from mynn.layers.dense import dense
 from mygrad.nnet import margin_ranking_loss
-from sklearn.metrics.pairwise import cosine_similarity
+
+
 import cos_sim
+
+
+
+
 
 def main():
     path = r"glove.6B.50d.txt.w2v"
@@ -53,6 +58,7 @@ def main():
         id2 = np.random.choice(list(resnet.keys()))
         while id1 == id2:
             id2 = np.random.choice(list(resnet.keys()))
+
         print(type(resnet[id1]),type(img_to_caption[id1][0]),type(resnet[id2]))
         good_image = mg.Tensor(resnet[id1])
         text = (img_to_caption[id1][0])
@@ -60,6 +66,13 @@ def main():
 
         sim_to_good = cos_sim.cos_sim(model(good_image), embed_text.se_text(text, glove, idfs))
         sim_to_bad = cos_sim.cos_sim(model(bad_image), embed_text.se_text(text, glove, idfs))
+
+        good_image = resnet[id1]
+        text = img_to_caption[id1][0]
+        bad_image = resnet[id2]
+        sim_to_good = cos_sim(embed_text.se_text(text, glove, idfs).reshape(50), mg.reshape(model(good_image), 50))
+        sim_to_bad = cos_sim(embed_text.se_text(text, glove, idfs).reshape(50), mg.reshape(model(bad_image), 50))
+
 
     # compute the loss associated with our predictions(use softmax_cross_entropy)
         loss = margin_ranking_loss(sim_to_good, sim_to_bad, 1, 0.1)

@@ -3,6 +3,8 @@ import embed_text
 import json
 import unpickle
 import numpy as np
+import pickle
+
 
 def main():
     path = r"glove.6B.50d.txt.w2v"
@@ -35,6 +37,17 @@ def main():
     counters = [embed_text.to_counter(doc) for doc in documents]
     vocab = embed_text.to_vocab(counters)
     idfs = embed_text.to_idf(vocab, counters)
+
+    # Saves idfs into a pickle file
+    with open('idfs.pkl', mode='wb') as file:
+        pickle.dump(idfs, file)
+    # Saves img_to_caption into a pickle file
+    with open('img_to_caption.pkl', mode='wb') as file:
+        pickle.dump(img_to_caption, file)
+    # Saves img_to_coco into a pickle file
+    with open('img_to_coco.pkl', mode='wb') as file:
+        pickle.dump(img_to_coco, file)
+
 
 if __name__ == "__main__":
     main()
