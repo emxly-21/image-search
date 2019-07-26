@@ -42,7 +42,7 @@ def main():
     # creates a Dict[img_ids: coco_url]
     for image in json_data['images']:
         img_to_coco[image['id']] = image['coco_url']
-    for caption in range(82783):
+    for caption in range(414113):
         documents.append(json_data['annotations'][caption]['caption'])
 
     counters = [embed_text.to_counter(doc) for doc in documents]
